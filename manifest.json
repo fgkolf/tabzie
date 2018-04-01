@@ -5,7 +5,7 @@
   "description": "A simple bookmark button",
   "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/bookmark-it",
   "icons": {
-    "48": "shakira1.jpg"
+    "48": "shakira.jpg"
   },
 
   "permissions": [
@@ -15,7 +15,7 @@
   ],
 
   "browser_action": {
-    "default_icon": "shakira2.jpg",
+    "default_icon": "shakira.jpg",
     "default_title": "shakira",
     "default_popup": "popup.html"
   }
