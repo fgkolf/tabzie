@@ -27,6 +27,6 @@ const getTabs = () => {
 }
 
 /**
- * ENTRY POINT
+ * ENTRY POINT HERE
  */
 getTabs();
