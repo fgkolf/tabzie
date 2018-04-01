@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Bookmark it!",
+  "version": "1.1",
+  "description": "A simple bookmark button",
+  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/bookmark-it",
+  "icons": {
+    "48": "shakira1.jpg"
+  },
+
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "tabs"
+  ],
+
+  "browser_action": {
+    "default_icon": "shakira2.jpg",
+    "default_title": "shakira",
+    "default_popup": "popup.html"
+  }
+
+}
