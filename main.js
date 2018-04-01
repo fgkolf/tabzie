@@ -26,4 +26,7 @@ const getTabs = () => {
   querying.then(createTabItems);
 }
 
+/**
+ * ENTRY POINT
+ */
 getTabs();
