@@ -1,0 +1,38 @@
+body {
+    /*disables highlighting*/
+    -moz-user-select: none;
+    background-color: darkcyan;
+}
+
+.grid-container {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: auto auto auto;
+}
+
+.grid-item {
+    position: relative;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 1%;
+}
+
+.grid-item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    /*transition: .1s ease; */
+}
+
+.grid-item .overlay:hover {
+    background-color: darkcyan;
+    opacity: 0.6;
+}
