@@ -4,6 +4,12 @@ body {
     background-color: darkcyan;
 }
 
+/* disables outline on buttons when clicked */
+::-moz-focus-inner {
+    outline: none;
+    border: 0;
+}
+
 .grid-container {
     display: grid;
     grid-gap: 8px;
@@ -20,19 +26,39 @@ body {
     border-radius: 1%;
 }
 
-.grid-item .overlay {
+.overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    /*transition: .1s ease; */
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 5%;
+    align-items: center;
+    justify-content: center;
+    transition: .3s ease;
 }
 
-.grid-item .overlay:hover {
+.overlay:hover {
     background-color: darkcyan;
     opacity: 0.6;
+}
+
+.btn {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    border: none;
+    /* REMOVE THIS FOR TESTING */
+    display: none;
+    transition: .3s ease;
+}
+
+.star {
+    background: url("../images/star.png") no-repeat center;
+}
+
+.file {
+    background: url("../images/file.png") no-repeat center;
 }
