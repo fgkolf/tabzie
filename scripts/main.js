@@ -45,6 +45,3 @@ const getTabs = () => {
  * ENTRY POINT HERE
  */
 getTabs();
-
-browser.bookmarks.getTree()
-  .then(root => {console.log(root[0].children[1])});
