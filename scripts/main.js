@@ -1,6 +1,17 @@
 const parent = document.getElementById("container");
 
-// Star Button related
+// Close Button related
+const addCloseBtnListener = () => {
+  document.getElementById("close")
+    .addEventListener(
+      "click",
+      () => {
+        document.getElementById("curtain").style.display = "none";
+        document.getElementById("search").value = "";
+      })
+}
+
+// Star and File Buttons related
 const createButtons = (url) => {
   const overlay = document.createElement('div')
   overlay.setAttribute('class', 'overlay');
@@ -55,3 +66,4 @@ const getTabs = () => {
  * ENTRY POINT HERE
  */
 getTabs();
+addCloseBtnListener();

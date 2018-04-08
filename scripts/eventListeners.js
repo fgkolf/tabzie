@@ -1,8 +1,9 @@
 const starBtnFullUri = 'url("../images/star-full.png")';
 const starBtnUri = 'url("../images/star.png")';
 
-const onFileClicked = (e) => {
-  // TODO implement logic
+const onFileClicked = () => {
+  document.getElementById("curtain").style.display = "grid";
+  document.getElementById("search").focus();
 };
 
 const onStarClicked = (e) => {
