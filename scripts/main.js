@@ -1,14 +1,14 @@
 const parent = document.getElementById("container");
 
+const addSearchInputChangeListener = () => {
+  document.getElementById("search")
+    .addEventListener('input', onInputChange);
+}
+
 // Close Button related
 const addCloseBtnListener = () => {
   document.getElementById("close")
-    .addEventListener(
-      "click",
-      () => {
-        document.getElementById("curtain").style.display = "none";
-        document.getElementById("search").value = "";
-      })
+    .addEventListener("click", onCloseButtonClicked)
 }
 
 // Star and File Buttons related
@@ -67,3 +67,4 @@ const getTabs = () => {
  */
 getTabs();
 addCloseBtnListener();
+addSearchInputChangeListener();

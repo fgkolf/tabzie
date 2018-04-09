@@ -32,9 +32,22 @@
         </div>
       </div>
     </div>
-    <div class="curtain" >
-      <input type="text" placeholder="Lets find a file" autofocus/>
-      <button class="close btn" />
+    <div class="curtain" id="curtain">
+      <input
+        id="search"
+        type="text"
+        placeholder="Lets find a file"
+        autofocus
+      />
+      <ul id="results" class="results">
+        <li><a>create new</a></li>
+        <li><a>my bookmark folder 1</a></li>
+        <li><a>my bookmark folder 2</a></li>
+        <li><a>my bookmark folder 3</a></li>
+        <li><a>my bookmark folder 4</a></li>
+        <li><a>my bookmark folder 5</a></li>
+      </ul>
+      <button id="close" class="close btn" />
     </div>
   </body>
 </html>
