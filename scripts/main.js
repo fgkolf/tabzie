@@ -46,13 +46,18 @@ const onCaptured = (imageUri, gridItem, tab) => {
   gridItem.appendChild(createButtons(tab.url));
 };
 
+const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+const isValidURLFormat = url => urlRegEx.test(url);
+
 const createTabItems = (tabs) => {
   tabs.forEach((tab) => {
-    const gridItem = document.createElement("div");
-    gridItem.setAttribute('class', 'grid-item');
-    const capturing = browser.tabs.captureTab(tab.id);
-    capturing.then((uri) =>{ onCaptured(uri, gridItem, tab); });
-    parent.appendChild(gridItem);
+    if (isValidURLFormat(tab.url)) {
+      const gridItem = document.createElement("div");
+      gridItem.setAttribute('class', 'grid-item');
+      const capturing = browser.tabs.captureTab(tab.id);
+      capturing.then((uri) => { onCaptured(uri, gridItem, tab); });
+      parent.appendChild(gridItem);
+    }
   })
   ;
 }

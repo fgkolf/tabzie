@@ -2,9 +2,11 @@ const starBtnFullUri = 'url("../images/star-full.png")';
 const starBtnUri = 'url("../images/star.png")';
 const results = document.getElementById("results");
 
-const onCloseButtonClicked = () => {
+const onCloseButtonClicked = (e) => {
   document.getElementById("curtain").style.display = "none";
+  // clear previous state
   document.getElementById("search").value = "";
+  onInputChange(e);
 };
 
 const onFileClicked = (e) => {
@@ -52,8 +54,8 @@ const onImageLeave = (e) => {
 }
 
 const clearResults = () => {
-  while (results.firstChild) {
-    results.removeChild(results.firstChild);
+  while (results.hasChildNodes()) {
+    results.removeChild(results.lastChild);
   }
 }
 
