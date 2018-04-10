@@ -62,11 +62,26 @@ const createTabItems = (tabs) => {
   ;
 }
 
+// TODO check media property
 const getTabs = () => {
   const querying = browser.tabs.query({});
   querying.then(createTabItems);
 }
+function logTabs(windowInfo) {
+  if (windowInfo.width > 500) {
+    document.getElementsByTagName('html')[0].style.minHeight = `${windowInfo.height / 2}px`;
+    document.getElementsByTagName('body')[0].style.minHeight = `${windowInfo.height / 2}px`;
+    document.getElementsByTagName('html')[0].style.maxWidth = `${windowInfo.width / 2}px`;
+    document.getElementsByTagName('body')[0].style.maxWidth = `${windowInfo.width / 2}px`;
+  } else {
+    document.getElementById('container').style.gridTemplateColumns = 'auto';
+    document.getElementsByTagName('html')[0].style.width = `${windowInfo.width / 2}px`;
+    document.getElementsByTagName('body')[0].style.width = `${windowInfo.width / 2}px`;
+  }
+}
 
+const getting = browser.windows.getCurrent({populate: true});
+getting.then(logTabs);
 /**
  * ENTRY POINT HERE
  */

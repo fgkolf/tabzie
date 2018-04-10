@@ -10,7 +10,7 @@ const onCloseButtonClicked = (e) => {
 };
 
 const onFileClicked = (e) => {
-  document.getElementById("curtain").style.display = "grid";
+  document.getElementById("curtain").style.display = "block";
   results.dataset.url = e.target.dataset.url;
   document.getElementById("search").focus();
 };
@@ -25,7 +25,6 @@ const onStarClicked = (e) => {
     } else {
       e.target.style.backgroundImage = starBtnFullUri;
       browser.bookmarks.create({
-        parentId: "toolbar_____",
         url,
         title: url
       });
@@ -81,7 +80,7 @@ const createResultElement = (folder) => {
 const createNewFolderElement = (name) => {
   const li = createListElement("Create New");
   li.addEventListener('click', () => {
-    const creating = browser.bookmarks.create({ title: name, parentId: "toolbar_____" })
+    const creating = browser.bookmarks.create({ title: name })
     creating.then(f => addAndClose(f.id));
   })
   results.appendChild(li);
