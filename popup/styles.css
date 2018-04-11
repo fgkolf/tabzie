@@ -34,7 +34,7 @@ body {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     grid-gap: 5%;
     align-items: center;
     justify-content: center;
@@ -61,6 +61,10 @@ body {
 
 .file {
     background: url("../images/file.png") no-repeat center;
+}
+
+.x {
+    background: url("../images/close.png") no-repeat center;
 }
 
 .plus {

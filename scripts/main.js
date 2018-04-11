@@ -12,7 +12,7 @@ const addCloseBtnListener = () => {
 }
 
 // Star and File Buttons related
-const createButtons = (url) => {
+const createButtons = (url, id) => {
   const overlay = document.createElement('div')
   overlay.setAttribute('class', 'overlay');
   overlay.setAttribute('data-url', url);
@@ -29,8 +29,14 @@ const createButtons = (url) => {
   fileButton.setAttribute('data-url', url);
   fileButton.addEventListener('click', onFileClicked);
 
+  const xButton = document.createElement('button');
+  xButton.setAttribute('class', 'btn x');
+  xButton.setAttribute('data-id', id);
+  xButton.addEventListener('click', onXClicked);
+
   overlay.appendChild(starButton);
   overlay.appendChild(fileButton);
+  overlay.appendChild(xButton);
   return overlay;
 }
 
@@ -43,7 +49,7 @@ const createImage = (imageUri) => {
 
 const onCaptured = (imageUri, gridItem, tab) => {
   gridItem.appendChild(createImage(imageUri));
-  gridItem.appendChild(createButtons(tab.url));
+  gridItem.appendChild(createButtons(tab.url, tab.id));
 };
 
 const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -54,6 +60,7 @@ const createTabItems = (tabs) => {
     if (isValidURLFormat(tab.url)) {
       const gridItem = document.createElement("div");
       gridItem.setAttribute('class', 'grid-item');
+      gridItem.setAttribute('id', tab.id);
       const capturing = browser.tabs.captureTab(tab.id);
       capturing.then((uri) => { onCaptured(uri, gridItem, tab); });
       parent.appendChild(gridItem);

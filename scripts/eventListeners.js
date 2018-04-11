@@ -9,6 +9,17 @@ const onCloseButtonClicked = (e) => {
   onInputChange(e);
 };
 
+const onImageRemoved = (tabId) => {
+  const element = document.getElementById(tabId);
+  element.parentNode.removeChild(element);
+}
+
+const onXClicked = (e) => {
+  const tabId = parseInt(e.target.dataset.id);
+  const removing = browser.tabs.remove(tabId);
+  removing.then(() => onImageRemoved(tabId));
+}
+
 const onFileClicked = (e) => {
   document.getElementById("curtain").style.display = "grid";
   results.dataset.url = e.target.dataset.url;
