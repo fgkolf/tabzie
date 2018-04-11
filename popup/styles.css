@@ -14,7 +14,7 @@ body {
 .grid-container {
     display: grid;
     grid-gap: 8px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
 }
 
 .grid-item {
@@ -63,6 +63,10 @@ body {
     background: url("../images/file.png") no-repeat center;
 }
 
+.plus {
+    color: #ff9400;
+}
+
 .close {
     display: block;
     position: absolute;
@@ -80,44 +84,66 @@ body {
     width:100%;
     height:100%;
     background-color:rgba(0, 0, 0, 0.8);
-    display: block;
-    text-align: center;
+    display: none;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
 }
 
-.wrapper {
-    margin-top: 10%;
+::placeholder {
+    color: white;
+    font-size: xx-large;
+    opacity: 1;
+    font-weight: 400;
 }
 
-.wrapper input {
-    padding: 1%;
-    width: 78%;
+.curtain input {
+    position: absolute;
+    grid-area: 2 / 2;
     height: 30px;
+
+    padding: 5px;
     border: none;
     outline: none;
-    margin: 0 auto 5px;
-    background: rgba(255,255,255,0);
-    font-size: large;
+    background: rgba(255,255,255, 0);
+    font-size: xx-large;
     font-family: 'Ubuntu', sans-serif;
-    color: white;
+    font-weight: 400;
+    color: #ff9400;
 }
-
 .results {
-    margin: 0 auto;
-    padding: 0;
+    margin-left: 5px;
+    margin-top: 45px;
+    grid-area: 2 / 2;
+    position: absolute;
     list-style-type: none;
-    width: 80%;
-    text-align: left;
+    /*this is needed for alignment with input*/
+    padding: 0;
 }
 
 .results li a {
-    padding: 5px;
+    margin: 0;
     line-height: 25px;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255, 0);
     font-size: large;
-    display: block;
     cursor: pointer;
+    color: lightgrey;
+    font-weight: 300;
+
+    /*this is needed for pozer underlining*/
+    text-decoration: none;
+    position: relative;
 }
 
-.results li a:hover {
-    background: rgba(255, 174, 52, 0.7);
+.results li a:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    border-bottom: 1.5px solid #ff9400;
+    transition: 0.4s;
+}
+
+.results li a:hover:after {
+    width: 100%;
 }

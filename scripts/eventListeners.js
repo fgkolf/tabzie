@@ -10,7 +10,7 @@ const onCloseButtonClicked = (e) => {
 };
 
 const onFileClicked = (e) => {
-  document.getElementById("curtain").style.display = "block";
+  document.getElementById("curtain").style.display = "grid";
   results.dataset.url = e.target.dataset.url;
   document.getElementById("search").focus();
 };
@@ -58,9 +58,15 @@ const clearResults = () => {
   }
 }
 
-const createListElement = (name) => {
+const createListElement = (name, isCreateButton) => {
   const li = document.createElement('li');
   const a = document.createElement('a');
+  if (isCreateButton) {
+    const plusIcon = document.createElement('span');
+    plusIcon.appendChild(document.createTextNode('+ '));
+    plusIcon.setAttribute('class', 'plus')
+    a.appendChild(plusIcon);
+  }
   a.appendChild(document.createTextNode(name));
   li.appendChild(a);
   return li;
@@ -78,7 +84,7 @@ const createResultElement = (folder) => {
 }
 
 const createNewFolderElement = (name) => {
-  const li = createListElement("Create New");
+  const li = createListElement("Create New", true);
   li.addEventListener('click', () => {
     const creating = browser.bookmarks.create({ title: name })
     creating.then(f => addAndClose(f.id));
