@@ -1,13 +1,27 @@
 body {
     /*disables highlighting*/
     -moz-user-select: none;
-    background-color: darkcyan;
+    background-color: #404040;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* disables outline on buttons when clicked */
+::-moz-focus-inner {
+    outline: none;
+    border: 0;
 }
 
 .grid-container {
     display: grid;
     grid-gap: 8px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
+}
+
+.grid-list {
+    display: grid;
+    grid-gap: 8px;
+    grid-auto-columns: 320px;
+    grid-auto-rows: 180px;
 }
 
 .grid-item {
@@ -20,19 +34,127 @@ body {
     border-radius: 1%;
 }
 
-.grid-item .overlay {
+.overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    /*transition: .1s ease; */
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 5%;
+    align-items: center;
+    justify-content: center;
+    transition: .3s ease;
 }
 
-.grid-item .overlay:hover {
-    background-color: darkcyan;
-    opacity: 0.6;
+.overlay:hover {
+    background: rgba(255, 148, 0, 0.8);
+}
+
+.btn {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    border: none;
+    /* REMOVE THIS FOR TESTING */
+    display: none;
+    transition: .3s ease;
+}
+
+.star {
+    background: url("../images/star.png") no-repeat center;
+}
+
+.file {
+    background: url("../images/file.png") no-repeat center;
+}
+
+.x {
+    background: url("../images/close.png") no-repeat center;
+}
+
+.plus {
+    color: #ff9400;
+}
+
+.close {
+    display: block;
+    position: absolute;
+    top:1%;
+    right: 1%;
+    background: url("../images/close.png") no-repeat center;
+}
+
+.curtain {
+    z-index: 1;
+    /* this is needed for the scrolling case*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0, 0, 0, 0.8);
+    display: none;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+}
+
+::placeholder {
+    color: white;
+    font-size: xx-large;
+    opacity: 1;
+    font-weight: 400;
+}
+
+.curtain input {
+    position: absolute;
+    grid-area: 2 / 2;
+    height: 30px;
+
+    padding: 5px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255, 0);
+    font-size: xx-large;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    color: #ff9400;
+}
+.results {
+    margin-left: 5px;
+    margin-top: 45px;
+    grid-area: 2 / 2;
+    position: absolute;
+    list-style-type: none;
+    /*this is needed for alignment with input*/
+    padding: 0;
+}
+
+.results li a {
+    margin: 0;
+    line-height: 25px;
+    background: rgba(255,255,255, 0);
+    font-size: large;
+    cursor: pointer;
+    color: lightgrey;
+    font-weight: 300;
+
+    /*this is needed for pozer underlining*/
+    text-decoration: none;
+    position: relative;
+}
+
+.results li a:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    border-bottom: 1.5px solid #ff9400;
+    transition: 0.4s;
+}
+
+.results li a:hover:after {
+    width: 100%;
 }
