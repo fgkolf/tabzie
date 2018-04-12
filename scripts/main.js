@@ -11,13 +11,15 @@ const addCloseBtnListener = () => {
     .addEventListener("click", onCloseButtonClicked)
 }
 
-// Star and File Buttons related
+// Star, File and X Buttons related
 const createButtons = (url, id) => {
   const overlay = document.createElement('div')
   overlay.setAttribute('class', 'overlay');
+  overlay.setAttribute('data-id', id);
   overlay.setAttribute('data-url', url);
   overlay.addEventListener('mouseenter', onImageEnter);
   overlay.addEventListener('mouseleave', onImageLeave);
+  overlay.addEventListener('click', onImageOverlayClicked);
 
   const starButton = document.createElement('button');
   starButton.setAttribute('class', 'btn star');
@@ -74,18 +76,26 @@ const getTabs = () => {
   querying.then(createTabItems);
 }
 
-// TODO check media property
-function logTabs(windowInfo) {
-  if (windowInfo.width < 500) {
-    document.getElementById('container').style.gridTemplateColumns = 'auto';
+const setPopupProperties = (windowInfo) => {
+  if (windowInfo.width < 800) {
+    document.getElementById('container').setAttribute('class', 'grid-list');
+    document.getElementById('curtain').style.gridTemplateColumns = 'auto';
+    document.getElementById('search').style.gridArea = '2 / 1';
+    document.getElementById('search').style.left = '70px';
+    document.getElementById('results').style.gridArea = '2 / 1';
+    document.getElementById('results').style.left = '70px';
   }
 }
 
-const getting = browser.windows.getCurrent({populate: true});
-getting.then(logTabs);
+const adjustPopup = () => {
+  const getting = browser.windows.getCurrent({populate: true});
+  getting.then(setPopupProperties);
+}
+
 /**
  * ENTRY POINT HERE
  */
+adjustPopup();
 getTabs();
 addCloseBtnListener();
 addSearchInputChangeListener();

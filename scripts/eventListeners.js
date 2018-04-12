@@ -43,6 +43,11 @@ const onStarClicked = (e) => {
   })
 }
 
+const onImageOverlayClicked = (e) => {
+  const tabId = parseInt(e.target.dataset.id);
+  browser.tabs.update(tabId, { active: true });
+}
+
 const onImageEnter = (e) => {
   const url = e.target.dataset.url;
   const elms = e.target.getElementsByClassName('btn');
