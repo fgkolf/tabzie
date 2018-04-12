@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
-  "name": "Bookmark it!",
+  "name": "Tabzie",
   "version": "1.1",
   "description": "A simple bookmark button",
   "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/bookmark-it",
   "icons": {
-    "48": "/images/shakira.jpg"
+    "48": "/images/logo.png"
   },
 
   "permissions": [
@@ -15,8 +15,8 @@
   ],
 
   "browser_action": {
-    "default_icon": "/images/shakira.jpg",
-    "default_title": "shakira",
+    "default_icon": "/images/logo.png",
+    "default_title": "Tabzie",
     "default_popup": "/popup/index.html"
   }
 }
