@@ -58,22 +58,22 @@ const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.
 const isValidURLFormat = url => urlRegEx.test(url);
 
 const createTabItems = (tabs) => {
-  tabs.forEach((tab) => {
+  tabs.forEach(async (tab) => {
     if (isValidURLFormat(tab.url)) {
       const gridItem = document.createElement("div");
       gridItem.setAttribute('class', 'grid-item');
       gridItem.setAttribute('id', tab.id);
-      const capturing = browser.tabs.captureTab(tab.id);
-      capturing.then((uri) => { onCaptured(uri, gridItem, tab); });
+      const uri = await browser.tabs.captureTab(tab.id);
+      onCaptured(uri, gridItem, tab);
       parent.appendChild(gridItem);
     }
   })
   ;
 }
 
-const getTabs = () => {
-  const querying = browser.tabs.query({});
-  querying.then(createTabItems);
+const getTabs = async () => {
+  const tabs = await browser.tabs.query({});
+  createTabItems(tabs);
 }
 
 const setPopupProperties = (windowInfo) => {
@@ -87,9 +87,9 @@ const setPopupProperties = (windowInfo) => {
   }
 }
 
-const adjustPopup = () => {
-  const getting = browser.windows.getCurrent({populate: true});
-  getting.then(setPopupProperties);
+const adjustPopup = async () => {
+  const windowInfo = await browser.windows.getCurrent({populate: true});
+  setPopupProperties(windowInfo);
 }
 
 /**

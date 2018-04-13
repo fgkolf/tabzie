@@ -15,6 +15,7 @@
   ],
 
   "browser_action": {
+    "browser_style": false,
     "default_icon": "/images/logo.png",
     "default_title": "Tabzie",
     "default_popup": "/popup/index.html"

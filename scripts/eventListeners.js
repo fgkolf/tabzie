@@ -14,10 +14,10 @@ const onImageRemoved = (tabId) => {
   element.parentNode.removeChild(element);
 }
 
-const onXClicked = (e) => {
+const onXClicked = async (e) => {
   const tabId = parseInt(e.target.dataset.id);
-  const removing = browser.tabs.remove(tabId);
-  removing.then(() => onImageRemoved(tabId));
+  await browser.tabs.remove(tabId);
+  onImageRemoved(tabId);
 }
 
 const onFileClicked = (e) => {
@@ -26,21 +26,19 @@ const onFileClicked = (e) => {
   document.getElementById("search").focus();
 };
 
-const onStarClicked = (e) => {
+const onStarClicked = async (e) => {
   const url = e.target.dataset.url;
-  const searching = browser.bookmarks.search({ url })
-  searching.then((bkmNode)=>{
-    if (bkmNode && bkmNode.length > 0) {
-      e.target.style.backgroundImage = starBtnUri;
-      browser.bookmarks.remove(bkmNode[0].id);
-    } else {
-      e.target.style.backgroundImage = starBtnFullUri;
-      browser.bookmarks.create({
-        url,
-        title: url
-      });
-    }
-  })
+  const bkmNode = await browser.bookmarks.search({ url })
+  if (bkmNode && bkmNode.length > 0) {
+    e.target.style.backgroundImage = starBtnUri;
+    browser.bookmarks.remove(bkmNode[0].id);
+  } else {
+    e.target.style.backgroundImage = starBtnFullUri;
+    browser.bookmarks.create({
+      url,
+      title: url
+    });
+  }
 }
 
 const onImageOverlayClicked = (e) => {
@@ -48,19 +46,17 @@ const onImageOverlayClicked = (e) => {
   browser.tabs.update(tabId, { active: true });
 }
 
-const onImageEnter = (e) => {
+const onImageEnter = async (e) => {
   const url = e.target.dataset.url;
   const elms = e.target.getElementsByClassName('btn');
   Array.prototype.forEach.call(elms, (el => { el.style.display = 'block' }))
-  const searching = browser.bookmarks.search({ url })
-  searching.then((bkmNode)=>{
-    const starButton = e.target.getElementsByClassName('star')[0];
-    if (bkmNode && bkmNode.length > 0) {
-      starButton.style.backgroundImage = starBtnFullUri;
-    } else {
-      starButton.style.backgroundImage = starBtnUri;
-    }
-  })
+  const starButton = e.target.getElementsByClassName('star')[0];
+  const bkmNode = await browser.bookmarks.search({ url })
+  if (bkmNode && bkmNode.length > 0) {
+    starButton.style.backgroundImage = starBtnFullUri;
+  } else {
+    starButton.style.backgroundImage = starBtnUri;
+  }
 };
 
 const onImageLeave = (e) => {
@@ -101,25 +97,23 @@ const createResultElement = (folder) => {
 
 const createNewFolderElement = (name) => {
   const li = createListElement("Create New", true);
-  li.addEventListener('click', () => {
-    const creating = browser.bookmarks.create({ title: name })
-    creating.then(f => addAndClose(f.id));
+  li.addEventListener('click', async () => {
+    const folder = await browser.bookmarks.create({ title: name })
+    addAndClose(folder.id);
   })
   results.appendChild(li);
 }
 
-const onInputChange = (e) => {
+const onInputChange = async (e) => {
   clearResults();
   const value = e.target.value;
   if (value) {
-    const searching = browser.bookmarks.search(value);
     createNewFolderElement(value);
-    searching.then((bkmNode) => {
-      if (bkmNode && bkmNode.length) {
-        bkmNode
-          .filter(b => b.type === "folder")
-          .forEach(f => { createResultElement(f) })
-      }
-    })
+    const bkmNode = await browser.bookmarks.search(value);
+    if (bkmNode && bkmNode.length) {
+    bkmNode
+      .filter(b => b.type === "folder")
+      .forEach(f => { createResultElement(f) })
+    }
   }
 }
