@@ -1,9 +1,9 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 1,
   "name": "Tabzie",
-  "version": "1.1",
-  "description": "A simple bookmark button",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/bookmark-it",
+  "version": "1",
+  "description": "A minimal tab organiser",
+  "homepage_url": "https://github.com/fgkolf/mozilla-ext",
   "icons": {
     "48": "/images/logo.png"
   },

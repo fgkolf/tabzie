@@ -57,7 +57,6 @@ body {
     height: 48px;
     cursor: pointer;
     border: none;
-    /* REMOVE THIS FOR TESTING */
     display: none;
     transition: .3s ease;
 }
@@ -83,7 +82,7 @@ body {
     position: absolute;
     top:1%;
     right: 1%;
-    background: url("../images/close.png") no-repeat center;
+    background: url("../images/closeorange.png") no-repeat center;
 }
 
 .curtain {
@@ -98,6 +97,12 @@ body {
     display: none;
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto;
+    -moz-animation: slide-down .3s ease-out;
+}
+
+@-moz-keyframes slide-down {
+    from { opacity: 0; -moz-transform: translateY(-100%); }
+    to { opacity: 1; -moz-transform: translateY(0); }
 }
 
 ::placeholder {
@@ -140,7 +145,7 @@ body {
     color: lightgrey;
     font-weight: 300;
 
-    /*this is needed for pozer underlining*/
+    /*this is needed for underlining*/
     text-decoration: none;
     position: relative;
 }
