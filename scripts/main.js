@@ -100,9 +100,9 @@ const setPopupProperties = (windowInfo) => {
     document.getElementById('container').setAttribute('class', 'grid-list');
     document.getElementById('curtain').style.gridTemplateColumns = 'auto';
     document.getElementById('search').style.gridArea = '2 / 1';
-    document.getElementById('search').style.left = '70px';
+    document.getElementById('search').style.left = '35px';
     document.getElementById('results').style.gridArea = '2 / 1';
-    document.getElementById('results').style.left = '70px';
+    document.getElementById('results').style.left = '35px';
   }
 }
 
