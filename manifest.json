@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Tabzie",
   "version": "1",
-  "description": "A minimal tab organiser",
+  "description": "A minimal tab organizer",
   "homepage_url": "https://github.com/fgkolf/mozilla-ext",
   "icons": {
     "48": "/images/logo.png",
