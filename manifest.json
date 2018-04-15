@@ -5,7 +5,8 @@
   "description": "A minimal tab organiser",
   "homepage_url": "https://github.com/fgkolf/mozilla-ext",
   "icons": {
-    "48": "/images/logo.png"
+    "48": "/images/logo.png",
+    "96": "/images/logo96.png"
   },
 
   "permissions": [
