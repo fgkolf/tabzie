@@ -73,6 +73,18 @@ body {
     background: url("../images/close.png") no-repeat center;
 }
 
+.menustar {
+    background: url("../images/menustar.png") no-repeat center;
+}
+
+.menufile {
+    background: url("../images/menufile.png") no-repeat center;
+}
+
+.menux {
+    background: url("../images/menuclose.png") no-repeat center;
+}
+
 .plus {
     color: #ff9400;
 }
@@ -162,4 +174,33 @@ body {
 
 .results li a:hover:after {
     width: 100%;
+}
+
+.menu {
+    margin: 5px;
+    display: none;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 48px;
+    grid-column-gap: 5%;
+    align-content: center;
+    justify-content: center;
+}
+
+.visible {
+    display: block;
+}
+
+.checkbox {
+    background: url("../images/checkbox.png") no-repeat center;
+    display: none;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top:1%;
+    left: 1%;
+    cursor: pointer;
+}
+
+.checked {
+    background: url("../images/checkedbox.png") no-repeat center;
 }

@@ -5,6 +5,16 @@ const addSearchInputChangeListener = () => {
     .addEventListener('input', onInputChange);
 }
 
+// Menu buttons related
+const addMenuButtonsListeners = () => {
+  document.getElementById("menuStar")
+    .addEventListener("click", onMenuStarClicked)
+  document.getElementById("menuFile")
+    .addEventListener("click", onMenuFileClicked)
+  document.getElementById("menuX")
+    .addEventListener("click", onMenuXClicked)
+}
+
 // Close Button related
 const addCloseBtnListener = () => {
   document.getElementById("close")
@@ -12,17 +22,19 @@ const addCloseBtnListener = () => {
 }
 
 // Star, File and X Buttons related
-const createButtons = (url, id) => {
+const createButtons = (url, id, windowId) => {
   const overlay = document.createElement('div')
   overlay.setAttribute('class', 'overlay');
   overlay.setAttribute('data-id', id);
   overlay.setAttribute('data-url', url);
+  overlay.setAttribute('data-windowid', windowId);
   overlay.addEventListener('mouseenter', onImageEnter);
   overlay.addEventListener('mouseleave', onImageLeave);
-  overlay.addEventListener('click', onImageOverlayClicked);
+  overlay.addEventListener('click', onImageClicked);
 
   const starButton = document.createElement('button');
   starButton.setAttribute('class', 'btn star');
+  starButton.setAttribute('id', `star_${id}`);
   starButton.setAttribute('data-url', url);
   starButton.addEventListener('click', onStarClicked);
 
@@ -36,6 +48,13 @@ const createButtons = (url, id) => {
   xButton.setAttribute('data-id', id);
   xButton.addEventListener('click', onXClicked);
 
+  const checkbox = document.createElement('span');
+  checkbox.setAttribute('data-id', id);
+  checkbox.setAttribute('data-url', url);
+  checkbox.setAttribute('class', 'checkbox');
+  checkbox.addEventListener('click', onCheckBoxClicked);
+
+  overlay.appendChild(checkbox);
   overlay.appendChild(starButton);
   overlay.appendChild(fileButton);
   overlay.appendChild(xButton);
@@ -51,7 +70,7 @@ const createImage = (imageUri) => {
 
 const onCaptured = (imageUri, gridItem, tab) => {
   gridItem.appendChild(createImage(imageUri));
-  gridItem.appendChild(createButtons(tab.url, tab.id));
+  gridItem.appendChild(createButtons(tab.url, tab.id, tab.windowId));
 };
 
 const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -98,4 +117,5 @@ const adjustPopup = async () => {
 adjustPopup();
 getTabs();
 addCloseBtnListener();
+addMenuButtonsListeners();
 addSearchInputChangeListener();
