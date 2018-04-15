@@ -3,7 +3,7 @@
   "name": "Tabzie",
   "version": "1",
   "description": "A minimal tab organizer",
-  "homepage_url": "https://github.com/fgkolf/mozilla-ext",
+  "homepage_url": "https://github.com/fgkolf/tabzie",
   "icons": {
     "48": "/images/logo.png",
     "96": "/images/logo96.png"
