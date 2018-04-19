@@ -7,12 +7,40 @@ const addSearchInputChangeListener = () => {
 
 // Menu buttons related
 const addMenuButtonsListeners = () => {
-  document.getElementById("menuStar")
-    .addEventListener("click", onMenuStarClicked)
-  document.getElementById("menuFile")
-    .addEventListener("click", onMenuFileClicked)
-  document.getElementById("menuX")
-    .addEventListener("click", onMenuXClicked)
+  document.getElementById('menu').addEventListener('click', (e) => {
+    if (e.target.id === 'menuStar') {
+      onMenuStarClicked(e);
+    }
+    if (e.target.id === 'menuFile') {
+      onMenuFileClicked(e);
+    }
+    if (e.target.id === 'menuX') {
+      onMenuXClicked(e);
+    }
+    e.stopPropagation();
+  })
+}
+
+// Grid images related
+const addGridContainerListeners = () => {
+  parent.addEventListener('click', (e) => {
+    if (e.target.classList.contains('overlay')) {
+      onImageClicked(e);
+    }
+    if (e.target.classList.contains('star')) {
+      onStarClicked(e);
+    }
+    if (e.target.classList.contains('file')) {
+      onFileClicked(e);
+    }
+    if (e.target.classList.contains('x')) {
+      onXClicked(e);
+    }
+    if (e.target.classList.contains('checkbox')) {
+      onCheckBoxClicked(e);
+    }
+    e.stopPropagation();
+  })
 }
 
 // Close Button related
@@ -30,30 +58,25 @@ const createButtons = (url, id, windowId) => {
   overlay.setAttribute('data-windowid', windowId);
   overlay.addEventListener('mouseenter', onImageEnter);
   overlay.addEventListener('mouseleave', onImageLeave);
-  overlay.addEventListener('click', onImageClicked);
 
   const starButton = document.createElement('button');
   starButton.setAttribute('class', 'btn star');
   starButton.setAttribute('id', `star_${id}`);
   starButton.setAttribute('data-url', url);
-  starButton.addEventListener('click', onStarClicked);
 
   const fileButton = document.createElement('button');
   fileButton.setAttribute('class', 'btn file');
   fileButton.setAttribute('data-url', url);
-  fileButton.addEventListener('click', onFileClicked);
 
   const xButton = document.createElement('button');
   xButton.setAttribute('class', 'btn x');
   xButton.setAttribute('data-id', id);
-  xButton.addEventListener('click', onXClicked);
 
   const checkbox = document.createElement('span');
   checkbox.setAttribute('class', 'checkbox');
   checkbox.setAttribute('id', `checkbox_${id}`);
   checkbox.setAttribute('data-id', id);
   checkbox.setAttribute('data-url', url);
-  checkbox.addEventListener('click', onCheckBoxClicked);
 
   overlay.appendChild(checkbox);
   overlay.appendChild(starButton);
@@ -96,6 +119,7 @@ const createTabItems = (tabs) => {
 const getTabs = async () => {
   const tabs = await browser.tabs.query({});
   createTabItems(tabs);
+  addGridContainerListeners();
 }
 
 const setPopupProperties = (windowInfo) => {
