@@ -49,9 +49,10 @@ const createButtons = (url, id, windowId) => {
   xButton.addEventListener('click', onXClicked);
 
   const checkbox = document.createElement('span');
+  checkbox.setAttribute('class', 'checkbox');
+  checkbox.setAttribute('id', `checkbox_${id}`);
   checkbox.setAttribute('data-id', id);
   checkbox.setAttribute('data-url', url);
-  checkbox.setAttribute('class', 'checkbox');
   checkbox.addEventListener('click', onCheckBoxClicked);
 
   overlay.appendChild(checkbox);
@@ -68,9 +69,11 @@ const createImage = (imageUri) => {
   return image;
 };
 
-const onCaptured = (imageUri, gridItem, tab) => {
-  gridItem.appendChild(createImage(imageUri));
-  gridItem.appendChild(createButtons(tab.url, tab.id, tab.windowId));
+const onCaptured = (imageUri, tab) => {
+  const fragment = document.createDocumentFragment();
+  fragment.appendChild(createImage(imageUri));
+  fragment.appendChild(createButtons(tab.url, tab.id, tab.windowId));
+  return fragment;
 };
 
 const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -83,7 +86,7 @@ const createTabItems = (tabs) => {
       gridItem.setAttribute('class', 'grid-item');
       gridItem.setAttribute('id', tab.id);
       const uri = await browser.tabs.captureTab(tab.id);
-      onCaptured(uri, gridItem, tab);
+      gridItem.appendChild(onCaptured(uri, tab));
       parent.appendChild(gridItem);
     }
   })
@@ -111,11 +114,15 @@ const adjustPopup = async () => {
   setPopupProperties(windowInfo);
 }
 
+const loadContent = () => {
+    adjustPopup();
+    getTabs();
+    addCloseBtnListener();
+    addMenuButtonsListeners();
+    addSearchInputChangeListener();
+}
+
 /**
  * ENTRY POINT HERE
  */
-adjustPopup();
-getTabs();
-addCloseBtnListener();
-addMenuButtonsListeners();
-addSearchInputChangeListener();
+document.addEventListener("DOMContentLoaded", loadContent);

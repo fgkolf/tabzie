@@ -123,11 +123,11 @@ const onImageClicked = (e) => {
 }
 
 const onImageEnter = async (e) => {
+  const { url, id } = e.target.dataset;
   if (checkedIds.length === 0) {
-    const url = e.target.dataset.url;
     const elms = e.target.getElementsByClassName('btn');
     Array.prototype.forEach.call(elms, (el => { el.style.display = 'block' }))
-    const starButton = e.target.getElementsByClassName('star')[0];
+    const starButton = document.getElementById(`star_${id}`);
     const bkmNode = await browser.bookmarks.search({url})
     if (bkmNode && bkmNode.length > 0) {
       starButton.style.backgroundImage = starBtnFullUri;
@@ -135,7 +135,7 @@ const onImageEnter = async (e) => {
       starButton.style.backgroundImage = starBtnUri;
     }
   }
-  const checkbox = e.target.getElementsByClassName("checkbox")[0]
+  const checkbox = document.getElementById(`checkbox_${id}`);
   checkbox.style.display = 'block';
 };
 
@@ -143,7 +143,7 @@ const onImageLeave = (e) => {
   const elms = e.target.getElementsByClassName('btn');
   Array.prototype.forEach.call(elms, (el => { el.style.display = 'none' }))
   if (!checkedIds.length) {
-    const checkbox = e.target.getElementsByClassName("checkbox")[0]
+    const checkbox = document.getElementById(`checkbox_${e.target.dataset.id}`)
     checkbox.style.display = 'none';
   }
 }
