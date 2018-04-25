@@ -1,4 +1,4 @@
-const parent = document.getElementById("container");
+const container = document.getElementById("container");
 
 const addSearchInputChangeListener = () => {
   document.getElementById("search")
@@ -26,7 +26,7 @@ const addMenuButtonsListeners = () => {
 
 // Grid images related
 const addGridContainerListeners = () => {
-  parent.addEventListener('click', (e) => {
+  container.addEventListener('click', (e) => {
     if (e.target.classList.contains('overlay')) {
       onImageClicked(e);
     }
@@ -113,7 +113,7 @@ const createTabItems = (tabs) => {
       gridItem.setAttribute('id', tab.id);
       const uri = await browser.tabs.captureTab(tab.id);
       gridItem.appendChild(onCaptured(uri, tab));
-      parent.appendChild(gridItem);
+      container.appendChild(gridItem);
     }
   })
   ;

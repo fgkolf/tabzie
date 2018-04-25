@@ -46,6 +46,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: .3s ease;
+    border-radius: 1%;
 }
 
 .overlay:hover {
