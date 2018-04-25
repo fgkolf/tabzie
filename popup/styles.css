@@ -184,7 +184,6 @@ body {
     grid-column-gap: 5%;
     align-content: center;
     justify-content: center;
-    -moz-animation: slide-down .3s ease-out;
 }
 
 .visible {
