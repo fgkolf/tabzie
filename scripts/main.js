@@ -9,13 +9,16 @@ const addSearchInputChangeListener = () => {
 const addMenuButtonsListeners = () => {
   document.getElementById('menu').addEventListener('click', (e) => {
     if (e.target.id === 'menuStar') {
-      onMenuStarClicked(e);
+      onMenuStarClicked();
     }
     if (e.target.id === 'menuFile') {
-      onMenuFileClicked(e);
+      onMenuFileClicked();
     }
     if (e.target.id === 'menuX') {
-      onMenuXClicked(e);
+      onMenuXClicked();
+    }
+    if (e.target.id === 'menuCheckbox') {
+      onMenuCheckboxClicked(e);
     }
     e.stopPropagation();
   })

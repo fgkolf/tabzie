@@ -14,14 +14,18 @@ const setMenuVisibility = (on, idToKeep) => {
     menu.style.display = 'none';
     Array.prototype.forEach.call(checkboxes,
       (el => {
+        el.classList.remove('checked');
+        if (el.id === 'menuCheckbox') {
+        return;
+        }
         if (el.dataset.id !== idToKeep) {
           el.style.display = 'none';
-        } else {
+        }
+        if (el.dataset.id === idToKeep) {
           const gridItem = document.getElementById(el.dataset.id);
           const btns = gridItem.getElementsByClassName('btn');
           Array.prototype.forEach.call(btns, (el => { el.style.display = 'block' }))
         }
-        el.classList.remove('checked');
       }))
     checkedIds = [];
     checkedUrls = [];
@@ -50,6 +54,25 @@ const onMenuXClicked = () => {
     onXClicked({ target: { dataset: { id } } })
   })
   setMenuVisibility(false);
+}
+
+const onMenuCheckboxClicked = (e) => {
+  const isChecked = e.target.classList.contains('checked');
+  checkedIds = [];
+  checkedUrls = [];
+  const checkboxes = document.getElementsByClassName('checkbox');
+  Array.prototype.forEach.call(checkboxes, (el => {
+    if (el.id === 'menuCheckbox') {
+      return isChecked ? el.classList.remove('checked') : el.classList.add('checked');
+    }
+    if (isChecked) {
+      setMenuVisibility(false);
+    } else {
+      el.setAttribute('class', 'checkbox checked');
+      checkedIds.push(el.dataset.id);
+      checkedUrls.push(el.dataset.url);
+    }
+  }))
 }
 
 const onCheckBoxClicked = (e) => {
