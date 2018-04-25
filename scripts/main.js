@@ -99,7 +99,7 @@ const onCaptured = (imageUri, tab) => {
   return fragment;
 };
 
-const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/;
 const isValidURLFormat = url => urlRegEx.test(url);
 
 const createTabItems = (tabs) => {
@@ -144,6 +144,7 @@ const loadContent = () => {
     addCloseBtnListener();
     addMenuButtonsListeners();
     addSearchInputChangeListener();
+    addResultsClickedListener();
 }
 
 /**

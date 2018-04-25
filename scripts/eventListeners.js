@@ -154,7 +154,7 @@ const clearResults = () => {
   }
 }
 
-const createListElement = (name, isCreateButton) => {
+const createListElement = (name, fid, isCreateButton) => {
   const li = document.createElement('li');
   const a = document.createElement('a');
   if (isCreateButton) {
@@ -162,6 +162,9 @@ const createListElement = (name, isCreateButton) => {
     plusIcon.appendChild(document.createTextNode('+ '));
     plusIcon.setAttribute('class', 'plus')
     a.appendChild(plusIcon);
+    a.setAttribute("data-name", fid);
+  } else {
+    a.setAttribute("data-fid", fid);
   }
   a.appendChild(document.createTextNode(name));
   li.appendChild(a);
@@ -180,17 +183,13 @@ const addAndClose = (parentId) => {
 }
 
 const createResultElement = (folder) => {
-  const li = createListElement(folder.title);
-  li.addEventListener('click', () => addAndClose(folder.id));
+  const li = createListElement(folder.title, folder.id);
   results.appendChild(li);
 }
 
+
 const createNewFolderElement = (name) => {
-  const li = createListElement("Create New", true);
-  li.addEventListener('click', async () => {
-    const folder = await browser.bookmarks.create({ title: name })
-    addAndClose(folder.id);
-  })
+  const li = createListElement("Create New", name, true);
   results.appendChild(li);
 }
 
@@ -206,4 +205,21 @@ const onInputChange = async (e) => {
       .forEach(f => { createResultElement(f) })
     }
   }
+}
+
+// Listener for search results clicks
+const addResultsClickedListener = () => {
+  results.addEventListener('click', async (e) => {
+    const {fid, name} = e.target.dataset;
+    // existing folder case
+    if (fid) {
+      addAndClose(fid);
+    }
+    // new folder case
+    if (name) {
+      const folder = await browser.bookmarks.create({title: name})
+      addAndClose(folder.id);
+    }
+    e.stopPropagation();
+  })
 }
