@@ -3,7 +3,7 @@ const container = document.getElementById("container");
 const addSearchInputChangeListener = () => {
   document.getElementById("search")
     .addEventListener('input', onInputChange);
-}
+};
 
 // Menu buttons related
 const addMenuButtonsListeners = () => {
@@ -22,7 +22,7 @@ const addMenuButtonsListeners = () => {
     }
     e.stopPropagation();
   })
-}
+};
 
 // Grid images related
 const addGridContainerListeners = () => {
@@ -50,7 +50,7 @@ const addGridContainerListeners = () => {
 const addCloseBtnListener = () => {
   document.getElementById("close")
     .addEventListener("click", onCloseButtonClicked)
-}
+};
 
 // Star, File and X Buttons related
 const createButtons = (url, id, windowId) => {
@@ -86,7 +86,7 @@ const createButtons = (url, id, windowId) => {
   overlay.appendChild(fileButton);
   overlay.appendChild(xButton);
   return overlay;
-}
+};
 
 // Image related
 const createImage = (imageUri) => {
@@ -107,23 +107,49 @@ const isValidURLFormat = url => urlRegEx.test(url);
 
 const createTabItems = (tabs) => {
   tabs.forEach(async (tab) => {
-    if (isValidURLFormat(tab.url)) {
-      const gridItem = document.createElement("div");
-      gridItem.setAttribute('class', 'grid-item');
-      gridItem.setAttribute('id', tab.id);
-      const uri = await browser.tabs.captureTab(tab.id);
-      gridItem.appendChild(onCaptured(uri, tab));
-      container.appendChild(gridItem);
-    }
-  })
-  ;
+    const gridItem = document.createElement("div");
+    gridItem.setAttribute('class', 'grid-item');
+    gridItem.setAttribute('id', tab.id);
+    const uri = await browser.tabs.captureTab(tab.id);
+    gridItem.appendChild(onCaptured(uri, tab));
+    container.appendChild(gridItem);
+  });
+};
+
+function* yieldMyTabs(tabs) {
+  for (const tab of tabs) {
+    yield tab;
+  }
 }
+
+const createLazyTabItems = async (tabs) => {
+  const tabsIterator = yieldMyTabs(tabs);
+  let nextIteration = tabsIterator.next();
+  while (!nextIteration.done) {
+    const tab = nextIteration.value;
+    const gridItem = document.createElement("div");
+    gridItem.setAttribute('class', 'grid-item');
+    gridItem.setAttribute('id', tab.id);
+    const uri = await browser.tabs.captureTab(tab.id);
+    gridItem.appendChild(onCaptured(uri, tab));
+    container.appendChild(gridItem);
+    nextIteration = tabsIterator.next();
+  }
+};
 
 const getTabs = async () => {
   const tabs = await browser.tabs.query({});
-  createTabItems(tabs);
-  addGridContainerListeners();
-}
+  const validTabs = tabs.filter(tab => isValidURLFormat(tab.url));
+  console.log(validTabs);
+  if (validTabs.length > 0) {
+    createLazyTabItems(validTabs);
+    addGridContainerListeners();
+  } else {
+    const emptyContainer = document.createElement('div');
+    emptyContainer.innerText = 'LETS ADD SOMETHING HERE';
+    container.appendChild(emptyContainer);
+  }
+};
 
 const setPopupProperties = (windowInfo) => {
   if (windowInfo.width < 800) {
@@ -134,21 +160,21 @@ const setPopupProperties = (windowInfo) => {
     document.getElementById('results').style.gridArea = '2 / 1';
     document.getElementById('results').style.left = '35px';
   }
-}
+};
 
 const adjustPopup = async () => {
   const windowInfo = await browser.windows.getCurrent({populate: true});
   setPopupProperties(windowInfo);
-}
+};
 
 const loadContent = () => {
-    adjustPopup();
-    getTabs();
-    addCloseBtnListener();
-    addMenuButtonsListeners();
-    addSearchInputChangeListener();
-    addResultsClickedListener();
-}
+  adjustPopup();
+  getTabs();
+  addCloseBtnListener();
+  addMenuButtonsListeners();
+  addSearchInputChangeListener();
+  addResultsClickedListener();
+};
 
 /**
  * ENTRY POINT HERE
