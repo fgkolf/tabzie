@@ -9,6 +9,12 @@
     "96": "/images/logo96.png"
   },
 
+  "applications": {
+    "gecko": {
+      "strict_min_version": "59.0"
+    }
+  },
+
   "permissions": [
     "<all_urls>",
     "tabs",
