@@ -3,3 +3,4 @@ modules.xml
 tabzie.iml
 .idea
 node_modules
+*.zip
