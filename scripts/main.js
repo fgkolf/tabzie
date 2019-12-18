@@ -1,13 +1,13 @@
-const container = document.getElementById("container");
+/* eslint-disable no-undef */
+const container = document.getElementById('container');
 
 const addSearchInputChangeListener = () => {
-  document.getElementById("search")
-    .addEventListener('input', onInputChange);
+  document.getElementById('search').addEventListener('input', onInputChange);
 };
 
 // Menu buttons related
 const addMenuButtonsListeners = () => {
-  document.getElementById('menu').addEventListener('click', (e) => {
+  document.getElementById('menu').addEventListener('click', e => {
     if (e.target.id === 'menuStar') {
       onMenuStarClicked();
     }
@@ -21,12 +21,12 @@ const addMenuButtonsListeners = () => {
       onMenuCheckboxClicked(e);
     }
     e.stopPropagation();
-  })
+  });
 };
 
 // Grid images related
 const addGridContainerListeners = () => {
-  container.addEventListener('click', (e) => {
+  container.addEventListener('click', e => {
     if (e.target.classList.contains('overlay')) {
       onImageClicked(e);
     }
@@ -43,18 +43,19 @@ const addGridContainerListeners = () => {
       onCheckBoxClicked(e);
     }
     e.stopPropagation();
-  })
-}
+  });
+};
 
 // Close Button related
 const addCloseBtnListener = () => {
-  document.getElementById("close")
-    .addEventListener("click", onCloseButtonClicked)
+  document
+    .getElementById('close')
+    .addEventListener('click', onCloseButtonClicked);
 };
 
 // Star, File and X Buttons related
 const createButtons = (url, id, windowId) => {
-  const overlay = document.createElement('div')
+  const overlay = document.createElement('div');
   overlay.setAttribute('class', 'overlay');
   overlay.setAttribute('data-id', id);
   overlay.setAttribute('data-url', url);
@@ -89,7 +90,7 @@ const createButtons = (url, id, windowId) => {
 };
 
 // Image related
-const createImage = (imageUri) => {
+const createImage = imageUri => {
   const image = document.createElement('img');
   image.setAttribute('src', imageUri);
   return image;
@@ -102,12 +103,12 @@ const onCaptured = (imageUri, tab) => {
   return fragment;
 };
 
-const urlRegEx = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/;
+const urlRegEx = /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
 const isValidURLFormat = url => urlRegEx.test(url);
 
-const createTabItems = (tabs) => {
-  tabs.forEach(async (tab) => {
-    const gridItem = document.createElement("div");
+const createTabItems = tabs => {
+  tabs.forEach(async tab => {
+    const gridItem = document.createElement('div');
     gridItem.setAttribute('class', 'grid-item');
     gridItem.setAttribute('id', tab.id);
     const uri = await browser.tabs.captureTab(tab.id);
@@ -116,18 +117,20 @@ const createTabItems = (tabs) => {
   });
 };
 
+// todo check if any performance optimization is made
 function* yieldMyTabs(tabs) {
+  // eslint-disable-next-line no-restricted-syntax
   for (const tab of tabs) {
     yield tab;
   }
 }
 
-const createLazyTabItems = async (tabs) => {
+const createLazyTabItems = async tabs => {
   const tabsIterator = yieldMyTabs(tabs);
   let nextIteration = tabsIterator.next();
   while (!nextIteration.done) {
     const tab = nextIteration.value;
-    const gridItem = document.createElement("div");
+    const gridItem = document.createElement('div');
     gridItem.setAttribute('class', 'grid-item');
     gridItem.setAttribute('id', tab.id);
     const uri = await browser.tabs.captureTab(tab.id);
@@ -140,7 +143,6 @@ const createLazyTabItems = async (tabs) => {
 const getTabs = async () => {
   const tabs = await browser.tabs.query({});
   const validTabs = tabs.filter(tab => isValidURLFormat(tab.url));
-  console.log(validTabs);
   if (validTabs.length > 0) {
     createLazyTabItems(validTabs);
     addGridContainerListeners();
@@ -151,7 +153,7 @@ const getTabs = async () => {
   }
 };
 
-const setPopupProperties = (windowInfo) => {
+const setPopupProperties = windowInfo => {
   if (windowInfo.width < 800) {
     document.getElementById('container').setAttribute('class', 'grid-list');
     document.getElementById('curtain').style.gridTemplateColumns = 'auto';
@@ -163,7 +165,7 @@ const setPopupProperties = (windowInfo) => {
 };
 
 const adjustPopup = async () => {
-  const windowInfo = await browser.windows.getCurrent({populate: true});
+  const windowInfo = await browser.windows.getCurrent({ populate: true });
   setPopupProperties(windowInfo);
 };
 
@@ -179,4 +181,4 @@ const loadContent = () => {
 /**
  * ENTRY POINT HERE
  */
-document.addEventListener("DOMContentLoaded", loadContent);
+document.addEventListener('DOMContentLoaded', loadContent);
