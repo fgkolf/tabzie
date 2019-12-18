@@ -1,6 +1,6 @@
 {
   "name": "tabzie",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "minimal tab organiser for mozilla firefox",
   "main": "scripts/main.js",
   "dependencies": {},
@@ -14,6 +14,7 @@
   },
   "scripts": {
     "run": "web-ext run --verbose",
+    "build": "web-ext build",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
   },
   "repository": {
@@ -21,7 +22,7 @@
     "url": "https://github.com/fgkolf/tabzie.git"
   },
   "author": "fgkolf",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/fgkolf/tabzie/issues"
   },
