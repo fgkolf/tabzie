@@ -10,11 +10,14 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "web-ext": "^6.4.0"
   },
   "scripts": {
     "run": "web-ext run --verbose",
     "build": "web-ext build",
+    "web-lint": "web-ext lint",
+    "web-sign": "web-ext sign",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/"
   },
   "repository": {
