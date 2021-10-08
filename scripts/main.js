@@ -7,7 +7,7 @@ const addSearchInputChangeListener = () => {
 
 // Menu buttons related
 const addMenuButtonsListeners = () => {
-  document.getElementById('menu').addEventListener('click', e => {
+  document.getElementById('menu').addEventListener('click', (e) => {
     if (e.target.id === 'menuStar') {
       onMenuStarClicked();
     }
@@ -26,7 +26,7 @@ const addMenuButtonsListeners = () => {
 
 // Grid images related
 const addGridContainerListeners = () => {
-  container.addEventListener('click', e => {
+  container.addEventListener('click', (e) => {
     if (e.target.classList.contains('overlay')) {
       onImageClicked(e);
     }
@@ -90,7 +90,7 @@ const createButtons = (url, id, windowId) => {
 };
 
 // Image related
-const createImage = imageUri => {
+const createImage = (imageUri) => {
   const image = document.createElement('img');
   image.setAttribute('src', imageUri);
   return image;
@@ -103,21 +103,10 @@ const onCaptured = (imageUri, tab) => {
   return fragment;
 };
 
-const urlRegEx = /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
-const isValidURLFormat = url => urlRegEx.test(url);
+const urlRegEx =
+  /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
+const isValidURLFormat = (url) => urlRegEx.test(url);
 
-const createTabItems = tabs => {
-  tabs.forEach(async tab => {
-    const gridItem = document.createElement('div');
-    gridItem.setAttribute('class', 'grid-item');
-    gridItem.setAttribute('id', tab.id);
-    const uri = await browser.tabs.captureTab(tab.id);
-    gridItem.appendChild(onCaptured(uri, tab));
-    container.appendChild(gridItem);
-  });
-};
-
-// todo check if any performance optimization is made
 function* yieldMyTabs(tabs) {
   // eslint-disable-next-line no-restricted-syntax
   for (const tab of tabs) {
@@ -125,7 +114,7 @@ function* yieldMyTabs(tabs) {
   }
 }
 
-const createLazyTabItems = async tabs => {
+const createLazyTabItems = async (tabs) => {
   const tabsIterator = yieldMyTabs(tabs);
   let nextIteration = tabsIterator.next();
   while (!nextIteration.done) {
@@ -133,6 +122,7 @@ const createLazyTabItems = async tabs => {
     const gridItem = document.createElement('div');
     gridItem.setAttribute('class', 'grid-item');
     gridItem.setAttribute('id', tab.id);
+    // eslint-disable-next-line no-await-in-loop
     const uri = await browser.tabs.captureTab(tab.id);
     gridItem.appendChild(onCaptured(uri, tab));
     container.appendChild(gridItem);
@@ -142,7 +132,7 @@ const createLazyTabItems = async tabs => {
 
 const getTabs = async () => {
   const tabs = await browser.tabs.query({});
-  const validTabs = tabs.filter(tab => isValidURLFormat(tab.url));
+  const validTabs = tabs.filter((tab) => isValidURLFormat(tab.url));
   if (validTabs.length > 0) {
     createLazyTabItems(validTabs);
     addGridContainerListeners();
@@ -154,7 +144,7 @@ const getTabs = async () => {
   }
 };
 
-const setPopupProperties = windowInfo => {
+const setPopupProperties = (windowInfo) => {
   if (windowInfo.width < 800) {
     document.getElementById('container').setAttribute('class', 'grid-list');
     document.getElementById('curtain').style.gridTemplateColumns = 'auto';

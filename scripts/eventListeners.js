@@ -11,12 +11,12 @@ const setMenuVisibility = (on, idToKeep) => {
   const checkboxes = document.getElementsByClassName('checkbox');
   if (on) {
     menu.style.display = 'grid';
-    Array.prototype.forEach.call(checkboxes, el => {
+    Array.prototype.forEach.call(checkboxes, (el) => {
       el.style.display = 'block';
     });
   } else {
     menu.style.display = 'none';
-    Array.prototype.forEach.call(checkboxes, el => {
+    Array.prototype.forEach.call(checkboxes, (el) => {
       el.classList.remove('checked');
       if (el.id === 'menuCheckbox') {
         return;
@@ -27,7 +27,7 @@ const setMenuVisibility = (on, idToKeep) => {
       if (el.dataset.id === idToKeep) {
         const gridItem = document.getElementById(el.dataset.id);
         const btns = gridItem.getElementsByClassName('btn');
-        Array.prototype.forEach.call(btns, btn => {
+        Array.prototype.forEach.call(btns, (btn) => {
           btn.style.display = 'block';
         });
       }
@@ -38,12 +38,12 @@ const setMenuVisibility = (on, idToKeep) => {
 };
 
 const onMenuStarClicked = () => {
-  checkedIds.forEach(id => {
+  checkedIds.forEach((id) => {
     const starBtn = document.getElementById(`star_${id}`);
     const { url } = starBtn.dataset;
     browser.bookmarks.create({
       url,
-      title: url
+      title: url,
     });
   });
   setMenuVisibility(false);
@@ -54,30 +54,30 @@ const onMenuFileClicked = () => {
   document.getElementById('search').focus();
 };
 
-const onImageRemoved = tabId => {
+const onImageRemoved = (tabId) => {
   const element = document.getElementById(tabId);
   element.parentNode.removeChild(element);
 };
 
-const onXClicked = async e => {
+const onXClicked = async (e) => {
   const tabId = parseInt(e.target.dataset.id, 10);
   await browser.tabs.remove(tabId);
   onImageRemoved(tabId);
 };
 
 const onMenuXClicked = () => {
-  checkedIds.forEach(id => {
+  checkedIds.forEach((id) => {
     onXClicked({ target: { dataset: { id } } });
   });
   setMenuVisibility(false);
 };
 
-const onMenuCheckboxClicked = e => {
+const onMenuCheckboxClicked = (e) => {
   const isChecked = e.target.classList.contains('checked');
   checkedIds = [];
   checkedUrls = [];
   const checkboxes = document.getElementsByClassName('checkbox');
-  Array.prototype.forEach.call(checkboxes, el => {
+  Array.prototype.forEach.call(checkboxes, (el) => {
     if (el.id === 'menuCheckbox') {
       if (isChecked) {
         el.classList.remove('checked');
@@ -95,7 +95,7 @@ const onMenuCheckboxClicked = e => {
   });
 };
 
-const onCheckBoxClicked = e => {
+const onCheckBoxClicked = (e) => {
   const { id, url } = e.target.dataset;
   if (checkedIds.includes(id)) {
     checkedIds.splice(checkedIds.indexOf(id), 1);
@@ -132,12 +132,12 @@ const createListElement = (name, fid, isCreateButton) => {
   return li;
 };
 
-const createResultElement = folder => {
+const createResultElement = (folder) => {
   const li = createListElement(folder.title, folder.id);
   results.appendChild(li);
 };
 
-const createNewFolderElement = name => {
+const createNewFolderElement = (name) => {
   const li = createListElement('Create New', name, true);
   results.appendChild(li);
 };
@@ -148,7 +148,7 @@ const clearResults = () => {
   }
 };
 
-const onInputChange = async e => {
+const onInputChange = async (e) => {
   clearResults();
   const value = e && e.target.value;
   if (value) {
@@ -156,15 +156,15 @@ const onInputChange = async e => {
     const bkmNode = await browser.bookmarks.search(value);
     if (bkmNode && bkmNode.length) {
       bkmNode
-        .filter(b => b.type === 'folder')
-        .forEach(f => {
+        .filter((b) => b.type === 'folder')
+        .forEach((f) => {
           createResultElement(f);
         });
     }
   }
 };
 
-const onCloseButtonClicked = e => {
+const onCloseButtonClicked = (e) => {
   document.getElementById('curtain').style.display = 'none';
   setMenuVisibility(false);
   // clear previous state
@@ -172,13 +172,13 @@ const onCloseButtonClicked = e => {
   onInputChange(e);
 };
 
-const onFileClicked = e => {
+const onFileClicked = (e) => {
   document.getElementById('curtain').style.display = 'grid';
   results.dataset.url = e.target.dataset.url;
   document.getElementById('search').focus();
 };
 
-const onStarClicked = async e => {
+const onStarClicked = async (e) => {
   const { url } = e.target.dataset;
   const bkmNode = await browser.bookmarks.search({ url });
   if (bkmNode && bkmNode.length > 0) {
@@ -188,12 +188,12 @@ const onStarClicked = async e => {
     e.target.style.backgroundImage = starBtnFullUri;
     browser.bookmarks.create({
       url,
-      title: url
+      title: url,
     });
   }
 };
 
-const onImageClicked = e => {
+const onImageClicked = (e) => {
   if (e.target.classList[0] === 'overlay') {
     const tabId = parseInt(e.target.dataset.id, 10);
     const windowId = parseInt(e.target.dataset.windowid, 10);
@@ -202,11 +202,11 @@ const onImageClicked = e => {
   }
 };
 
-const onImageEnter = async e => {
+const onImageEnter = async (e) => {
   const { url, id } = e.target.dataset;
   if (checkedIds.length === 0) {
     const elms = e.target.getElementsByClassName('btn');
-    Array.prototype.forEach.call(elms, el => {
+    Array.prototype.forEach.call(elms, (el) => {
       el.style.display = 'block';
     });
     const starButton = document.getElementById(`star_${id}`);
@@ -221,9 +221,9 @@ const onImageEnter = async e => {
   checkbox.style.display = 'block';
 };
 
-const onImageLeave = e => {
+const onImageLeave = (e) => {
   const elms = e.target.getElementsByClassName('btn');
-  Array.prototype.forEach.call(elms, el => {
+  Array.prototype.forEach.call(elms, (el) => {
     el.style.display = 'none';
   });
   if (!checkedIds.length) {
@@ -232,11 +232,11 @@ const onImageLeave = e => {
   }
 };
 
-const addAndClose = parentId => {
+const addAndClose = (parentId) => {
   if (results.dataset.url) {
     browser.bookmarks.create({ url: results.dataset.url, parentId });
   } else {
-    checkedUrls.forEach(url => {
+    checkedUrls.forEach((url) => {
       browser.bookmarks.create({ url, parentId });
     });
   }
@@ -245,7 +245,7 @@ const addAndClose = parentId => {
 
 // Listener for search results clicks
 const addResultsClickedListener = () => {
-  results.addEventListener('click', async e => {
+  results.addEventListener('click', async (e) => {
     const { fid, name } = e.target.dataset;
     // existing folder case
     if (fid) {
