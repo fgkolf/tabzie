@@ -131,7 +131,7 @@ const createLazyTabItems = async (tabs) => {
 };
 
 const getTabs = async () => {
-  const tabs = await browser.tabs.query({});
+  const tabs = await browser.tabs.query({ pinned: false });
   const validTabs = tabs.filter((tab) => isValidURLFormat(tab.url));
   if (validTabs.length > 0) {
     createLazyTabItems(validTabs);
