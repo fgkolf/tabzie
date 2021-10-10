@@ -34,6 +34,18 @@ body {
     border-radius: 1%;
 }
 
+.grid-item h2 {
+    display: none;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
+
 .overlay {
     position: absolute;
     top: 0;

@@ -54,7 +54,7 @@ const addCloseBtnListener = () => {
 };
 
 // Star, File and X Buttons related
-const createButtons = (url, id, windowId) => {
+const createOverlay = ({ url, id, title, windowId }) => {
   const overlay = document.createElement('div');
   overlay.setAttribute('class', 'overlay');
   overlay.setAttribute('data-id', id);
@@ -82,6 +82,10 @@ const createButtons = (url, id, windowId) => {
   checkbox.setAttribute('data-id', id);
   checkbox.setAttribute('data-url', url);
 
+  const header = document.createElement('h2');
+  header.innerText = title;
+
+  overlay.appendChild(header);
   overlay.appendChild(checkbox);
   overlay.appendChild(starButton);
   overlay.appendChild(fileButton);
@@ -99,7 +103,7 @@ const createImage = (imageUri) => {
 const onCaptured = (imageUri, tab) => {
   const fragment = document.createDocumentFragment();
   fragment.appendChild(createImage(imageUri));
-  fragment.appendChild(createButtons(tab.url, tab.id, tab.windowId));
+  fragment.appendChild(createOverlay(tab));
   return fragment;
 };
 

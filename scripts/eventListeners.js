@@ -199,11 +199,15 @@ const onImageClicked = (e) => {
 
 const onImageEnter = async (e) => {
   const { url, id } = e.target.dataset;
+  const title = e.target.querySelector('h2');
+  title.style.display = 'block';
+
   if (checkedIds.length === 0) {
     const elms = e.target.getElementsByClassName('btn');
     Array.prototype.forEach.call(elms, (el) => {
       el.style.display = 'block';
     });
+
     const starButton = document.getElementById(`star_${id}`);
     const bkmNode = await browser.bookmarks.search({ url });
     if (bkmNode && bkmNode.length > 0) {
@@ -221,6 +225,9 @@ const onImageEnter = async (e) => {
 };
 
 const onImageLeave = (e) => {
+  const title = e.target.querySelector('h2');
+  title.style.display = 'none';
+
   const elms = e.target.getElementsByClassName('btn');
   Array.prototype.forEach.call(elms, (el) => {
     el.style.display = 'none';
