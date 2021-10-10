@@ -172,4 +172,4 @@ const loadContent = () => {
 /**
  * ENTRY POINT HERE
  */
-document.addEventListener('DOMContentLoaded', loadContent);
+loadContent();

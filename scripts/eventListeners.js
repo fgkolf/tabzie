@@ -37,30 +37,13 @@ const setMenuVisibility = (on, idToKeep) => {
   }
 };
 
-const onMenuStarClicked = () => {
-  checkedIds.forEach((id) => {
-    const starBtn = document.getElementById(`star_${id}`);
-    const { url } = starBtn.dataset;
-    browser.bookmarks.create({
-      url,
-      title: url,
-    });
-  });
-  setMenuVisibility(false);
-};
-
-const onMenuFileClicked = () => {
-  document.getElementById('curtain').style.display = 'grid';
-  document.getElementById('search').focus();
-};
-
 const onImageRemoved = (tabId) => {
   const element = document.getElementById(tabId);
   element.parentNode.removeChild(element);
 };
 
-const onXClicked = async (e) => {
-  const tabId = parseInt(e.target.dataset.id, 10);
+const onXClicked = async ({ target }) => {
+  const tabId = parseInt(target.dataset.id, 10);
   await browser.tabs.remove(tabId);
   onImageRemoved(tabId);
 };
@@ -70,29 +53,6 @@ const onMenuXClicked = () => {
     onXClicked({ target: { dataset: { id } } });
   });
   setMenuVisibility(false);
-};
-
-const onMenuCheckboxClicked = (e) => {
-  const isChecked = e.target.classList.contains('checked');
-  checkedIds = [];
-  checkedUrls = [];
-  const checkboxes = document.getElementsByClassName('checkbox');
-  Array.prototype.forEach.call(checkboxes, (el) => {
-    if (el.id === 'menuCheckbox') {
-      if (isChecked) {
-        el.classList.remove('checked');
-      } else {
-        el.classList.add('checked');
-      }
-    }
-    if (isChecked) {
-      setMenuVisibility(false);
-    } else {
-      el.setAttribute('class', 'checkbox checked');
-      checkedIds.push(el.dataset.id);
-      checkedUrls.push(el.dataset.url);
-    }
-  });
 };
 
 const onCheckBoxClicked = (e) => {
@@ -113,6 +73,28 @@ const onCheckBoxClicked = (e) => {
   if (checkedIds.length === 1) {
     setMenuVisibility(true);
   }
+};
+
+const onMenuCheckboxClicked = (e) => {
+  const isChecked = e.target.classList.contains('checked');
+  if (isChecked) {
+    e.target.classList.remove('checked');
+  } else {
+    e.target.classList.add('checked');
+  }
+  checkedIds = [];
+  checkedUrls = [];
+  // eslint-disable-next-line no-undef
+  const checkboxes = container.getElementsByClassName('checkbox');
+  Array.prototype.forEach.call(checkboxes, (el) => {
+    if (isChecked) {
+      setMenuVisibility(false);
+    } else {
+      el.setAttribute('class', 'checkbox checked');
+      checkedIds.push(el.dataset.id);
+      checkedUrls.push(el.dataset.url);
+    }
+  });
 };
 
 const createListElement = (name, fid, isCreateButton) => {
@@ -178,19 +160,32 @@ const onFileClicked = (e) => {
   document.getElementById('search').focus();
 };
 
-const onStarClicked = async (e) => {
-  const { url } = e.target.dataset;
+const onMenuFileClicked = () => {
+  document.getElementById('curtain').style.display = 'grid';
+  document.getElementById('search').focus();
+};
+
+const onStarClicked = async ({ target }) => {
+  const { url } = target.dataset;
   const bkmNode = await browser.bookmarks.search({ url });
   if (bkmNode && bkmNode.length > 0) {
-    e.target.style.backgroundImage = starBtnUri;
+    target.style.backgroundImage = starBtnUri;
     browser.bookmarks.remove(bkmNode[0].id);
   } else {
-    e.target.style.backgroundImage = starBtnFullUri;
+    target.style.backgroundImage = starBtnFullUri;
     browser.bookmarks.create({
       url,
       title: url,
     });
   }
+};
+
+const onMenuStarClicked = () => {
+  checkedIds.forEach((id) => {
+    const starBtn = document.getElementById(`star_${id}`);
+    onStarClicked({ target: starBtn });
+  });
+  setMenuVisibility(false);
 };
 
 const onImageClicked = (e) => {
@@ -217,8 +212,12 @@ const onImageEnter = async (e) => {
       starButton.style.backgroundImage = starBtnUri;
     }
   }
-  const checkbox = document.getElementById(`checkbox_${id}`);
-  checkbox.style.display = 'block';
+  // if only one tab don't show checkbox
+  // eslint-disable-next-line no-undef
+  if (container.childElementCount > 1) {
+    const checkbox = document.getElementById(`checkbox_${id}`);
+    checkbox.style.display = 'block';
+  }
 };
 
 const onImageLeave = (e) => {
