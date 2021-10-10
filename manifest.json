@@ -26,5 +26,17 @@
     "default_icon": "/images/logo.png",
     "default_title": "Tabzie",
     "default_popup": "/popup/index.html"
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+J",
+        "windows": "Alt+J",
+        "mac": "Alt+J",
+        "linux": "Alt+J",
+        "chromeos": "Alt+J"
+      }
+    }
   }
 }
