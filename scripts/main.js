@@ -142,8 +142,8 @@ const getTabs = async () => {
     addGridContainerListeners();
   } else {
     const emptyContainer = document.createElement('div');
-    emptyContainer.setAttribute('class', 'grid-item');
-    emptyContainer.innerText = 'START BROWSING AND COME BACK!';
+    emptyContainer.setAttribute('class', 'grid-item empty');
+    emptyContainer.innerText = 'Start browsing and come back!';
     container.appendChild(emptyContainer);
   }
 };
