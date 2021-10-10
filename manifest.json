@@ -1,30 +1,38 @@
 {
   "manifest_version": 2,
   "name": "Tabzie",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A minimal tab organizer",
   "homepage_url": "https://github.com/fgkolf/tabzie",
   "icons": {
     "48": "/images/logo.png",
     "96": "/images/logo96.png"
   },
-
   "applications": {
     "gecko": {
       "strict_min_version": "59.0"
     }
   },
-
   "permissions": [
     "<all_urls>",
     "tabs",
     "bookmarks"
   ],
-
   "browser_action": {
     "browser_style": false,
     "default_icon": "/images/logo.png",
     "default_title": "Tabzie",
     "default_popup": "/popup/index.html"
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+J",
+        "windows": "Alt+J",
+        "mac": "Alt+J",
+        "linux": "Alt+J",
+        "chromeos": "Alt+J"
+      }
+    }
   }
 }

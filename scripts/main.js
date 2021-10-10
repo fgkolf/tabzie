@@ -54,7 +54,7 @@ const addCloseBtnListener = () => {
 };
 
 // Star, File and X Buttons related
-const createButtons = (url, id, windowId) => {
+const createOverlay = ({ url, id, title, windowId }) => {
   const overlay = document.createElement('div');
   overlay.setAttribute('class', 'overlay');
   overlay.setAttribute('data-id', id);
@@ -82,6 +82,10 @@ const createButtons = (url, id, windowId) => {
   checkbox.setAttribute('data-id', id);
   checkbox.setAttribute('data-url', url);
 
+  const header = document.createElement('h2');
+  header.innerText = title;
+
+  overlay.appendChild(header);
   overlay.appendChild(checkbox);
   overlay.appendChild(starButton);
   overlay.appendChild(fileButton);
@@ -99,7 +103,7 @@ const createImage = (imageUri) => {
 const onCaptured = (imageUri, tab) => {
   const fragment = document.createDocumentFragment();
   fragment.appendChild(createImage(imageUri));
-  fragment.appendChild(createButtons(tab.url, tab.id, tab.windowId));
+  fragment.appendChild(createOverlay(tab));
   return fragment;
 };
 
@@ -131,15 +135,15 @@ const createLazyTabItems = async (tabs) => {
 };
 
 const getTabs = async () => {
-  const tabs = await browser.tabs.query({});
+  const tabs = await browser.tabs.query({ pinned: false });
   const validTabs = tabs.filter((tab) => isValidURLFormat(tab.url));
   if (validTabs.length > 0) {
     createLazyTabItems(validTabs);
     addGridContainerListeners();
   } else {
     const emptyContainer = document.createElement('div');
-    emptyContainer.setAttribute('class', 'grid-item');
-    emptyContainer.innerText = 'START BROWSING AND COME BACK!';
+    emptyContainer.setAttribute('class', 'grid-item empty');
+    emptyContainer.innerText = 'Start browsing and come back!';
     container.appendChild(emptyContainer);
   }
 };
@@ -172,4 +176,4 @@ const loadContent = () => {
 /**
  * ENTRY POINT HERE
  */
-document.addEventListener('DOMContentLoaded', loadContent);
+loadContent();
