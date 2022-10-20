@@ -84,27 +84,39 @@ body {
 }
 
 .star {
-    background: url("../images/star.png") no-repeat center;
+    background-color: black;
+    -webkit-mask-image: url("../images/star.svg");
+    mask-image: url("../images/star.svg");
+}
+
+.star.full {
+    background-color: royalblue;
 }
 
 .file {
-    background: url("../images/file.png") no-repeat center;
+    background: url("../images/file.svg") no-repeat center;
 }
 
 .x {
-    background: url("../images/close.png") no-repeat center;
+    background: url("../images/close.svg") no-repeat center;
 }
 
 .menustar {
-    background: url("../images/menustar.png") no-repeat center;
+    background-color: var(--color-orange);
+    -webkit-mask-image: url("../images/star.svg");
+    mask-image: url("../images/star.svg");
 }
 
 .menufile {
-    background: url("../images/menufile.png") no-repeat center;
+    background-color: var(--color-orange);
+    -webkit-mask-image: url("../images/file.svg");
+    mask-image: url("../images/file.svg");
 }
 
 .menux {
-    background: url("../images/menuclose.png") no-repeat center;
+    background-color: var(--color-orange);
+    -webkit-mask-image: url("../images/close.svg");
+    mask-image: url("../images/close.svg");
 }
 
 .plus {
@@ -116,7 +128,9 @@ body {
     position: absolute;
     top:1%;
     right: 1%;
-    background: url("../images/closeorange.png") no-repeat center;
+    background-color: var(--color-orange);
+    -webkit-mask-image: url("../images/close.svg");
+    mask-image: url("../images/close.svg");
 }
 
 .curtain {

@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-const starBtnFullUri = 'url("../images/star-full.png")';
-const starBtnUri = 'url("../images/star.png")';
 const results = document.getElementById('results');
 let checkedIds = [];
 let checkedUrls = [];
@@ -169,10 +167,10 @@ const onStarClicked = async ({ target }) => {
   const { url } = target.dataset;
   const bkmNode = await browser.bookmarks.search({ url });
   if (bkmNode && bkmNode.length > 0) {
-    target.style.backgroundImage = starBtnUri;
+    target.classList.remove('full');
     browser.bookmarks.remove(bkmNode[0].id);
   } else {
-    target.style.backgroundImage = starBtnFullUri;
+    target.classList.add('full');
     browser.bookmarks.create({
       url,
       title: url,
@@ -211,9 +209,9 @@ const onImageEnter = async (e) => {
     const starButton = document.getElementById(`star_${id}`);
     const bkmNode = await browser.bookmarks.search({ url });
     if (bkmNode && bkmNode.length > 0) {
-      starButton.style.backgroundImage = starBtnFullUri;
+      starButton.classList.add('full');
     } else {
-      starButton.style.backgroundImage = starBtnUri;
+      starButton.classList.remove('full');
     }
   }
   // if only one tab don't show checkbox
