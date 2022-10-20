@@ -18,15 +18,19 @@ body {
 
 .grid-container {
     display: grid;
-    grid-gap: 8px;
+    grid-gap: 12px;
     grid-template-columns: auto auto;
 }
 
 .grid-list {
     display: grid;
-    grid-gap: 8px;
+    grid-gap: 12px;
     grid-auto-columns: 320px;
     grid-auto-rows: 180px;
+}
+
+.hidden {
+    display: none;
 }
 
 .grid-item {
@@ -37,11 +41,6 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 1%;
-}
-
-.grid-item.empty {
-    color: var(--color-orange);
-    padding: 16px;
 }
 
 .grid-item h2 {
@@ -226,4 +225,34 @@ body {
 
 .checked {
     background: url("../images/checkedbox.png") no-repeat center;
+}
+
+.loading {
+    display: flex;
+    width: 320px;
+    height: 180px;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-orange);
+    font-size: large;
+}
+
+.loader {
+    width: 42px;
+    height: 42px;
+    border: 4px solid;
+    border-color: var(--color-orange) transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const container = document.getElementById('container');
+const loading = document.getElementById('loading');
 
 const addSearchInputChangeListener = () => {
   document.getElementById('search').addEventListener('input', onInputChange);
@@ -96,6 +97,7 @@ const createOverlay = ({ url, id, title, windowId }) => {
 // Image related
 const createImage = (imageUri) => {
   const image = document.createElement('img');
+  image.setAttribute('loading', 'lazy');
   image.setAttribute('src', imageUri);
   return image;
 };
@@ -107,30 +109,29 @@ const onCaptured = (imageUri, tab) => {
   return fragment;
 };
 
+const handleLoading = () => {
+  setTimeout(() => {
+    container.classList.remove('hidden');
+    loading.remove();
+  }, 1500);
+};
+
 const urlRegEx =
   /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
 const isValidURLFormat = (url) => urlRegEx.test(url);
 
-function* yieldMyTabs(tabs) {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const tab of tabs) {
-    yield tab;
-  }
-}
-
-const createLazyTabItems = async (tabs) => {
-  const tabsIterator = yieldMyTabs(tabs);
-  let nextIteration = tabsIterator.next();
-  while (!nextIteration.done) {
-    const tab = nextIteration.value;
-    const gridItem = document.createElement('div');
-    gridItem.setAttribute('class', 'grid-item');
-    gridItem.setAttribute('id', tab.id);
-    // eslint-disable-next-line no-await-in-loop
-    const uri = await browser.tabs.captureTab(tab.id);
-    gridItem.appendChild(onCaptured(uri, tab));
-    container.appendChild(gridItem);
-    nextIteration = tabsIterator.next();
+const createTabItems = (tabs) => {
+  while (tabs.length) {
+    const fragment = document.createDocumentFragment();
+    tabs.splice(0, 4).forEach(async (tab) => {
+      const gridItem = document.createElement('div');
+      fragment.appendChild(gridItem);
+      gridItem.setAttribute('class', 'grid-item');
+      gridItem.setAttribute('id', tab.id);
+      const uri = await browser.tabs.captureTab(tab.id);
+      gridItem.appendChild(onCaptured(uri, tab));
+    });
+    container.appendChild(fragment);
   }
 };
 
@@ -138,19 +139,19 @@ const getTabs = async () => {
   const tabs = await browser.tabs.query({ pinned: false });
   const validTabs = tabs.filter((tab) => isValidURLFormat(tab.url));
   if (validTabs.length > 0) {
-    createLazyTabItems(validTabs);
+    handleLoading();
+    createTabItems(validTabs);
     addGridContainerListeners();
   } else {
-    const emptyContainer = document.createElement('div');
-    emptyContainer.setAttribute('class', 'grid-item empty');
-    emptyContainer.innerText = 'Start browsing and come back!';
-    container.appendChild(emptyContainer);
+    loading.innerText = 'Start browsing and come back!';
   }
 };
 
 const setPopupProperties = (windowInfo) => {
   if (windowInfo.width < 800) {
-    document.getElementById('container').setAttribute('class', 'grid-list');
+    document
+      .getElementById('container')
+      .setAttribute('class', 'grid-list hidden');
     document.getElementById('curtain').style.gridTemplateColumns = 'auto';
     document.getElementById('search').style.gridArea = '2 / 1';
     document.getElementById('search').style.left = '35px';
@@ -165,8 +166,8 @@ const adjustPopup = async () => {
 };
 
 const loadContent = () => {
-  adjustPopup();
   getTabs();
+  adjustPopup();
   addCloseBtnListener();
   addMenuButtonsListeners();
   addSearchInputChangeListener();
