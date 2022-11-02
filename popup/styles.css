@@ -8,6 +8,7 @@ body {
     -moz-user-select: none;
     background-color: #404040;
     font-family: 'Ubuntu', sans-serif;
+    position: relative;
 }
 
 /* disables outline on buttons when clicked */
@@ -213,32 +214,82 @@ body {
 }
 
 .menu {
-    margin: 5px;
-    display: none;
+    position: sticky;
+    top:0;
+    left:0;
+    background-color: #404040;
+    display: grid;
+    visibility: hidden;
+    height: 0;
     grid-template-columns: auto auto auto;
     grid-template-rows: 48px;
     grid-column-gap: 5%;
     align-content: center;
     justify-content: center;
+    transition: .3s height ease;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.menu .btn {
+    transform: translateY(-100px);
+}
+
+.menu.open {
+    padding: 5px;
+    visibility: visible;
+    height: 60px;
+}
+
+.menu.open .btn {
+    transform: translateY(0);
 }
 
 .visible {
     display: block;
 }
 
-.checkbox {
-    background: url("../images/checkbox.png") no-repeat center;
-    display: none;
+.checkbox-wrap {
     position: absolute;
-    width: 25px;
-    height: 25px;
     top:1%;
     left: 1%;
+    display: grid;
+    grid-template-columns: 1em auto;
+}
+
+input[type="checkbox"] {
+    display: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 1px solid currentColor;
+    transform: translateY(-0.075em);
+    place-content: center;
     cursor: pointer;
 }
 
-.checked {
-    background: url("../images/checkedbox.png") no-repeat center;
+.menu input[type="checkbox"] {
+    margin-top: 2px;
+    display: grid;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--color-orange);
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
 }
 
 .loading {

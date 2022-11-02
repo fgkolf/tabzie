@@ -40,7 +40,7 @@ const addGridContainerListeners = () => {
     if (e.target.classList.contains('x')) {
       onXClicked(e);
     }
-    if (e.target.classList.contains('checkbox')) {
+    if (e.target.type === 'checkbox') {
       onCheckBoxClicked(e);
     }
     e.stopPropagation();
@@ -77,17 +77,21 @@ const createOverlay = ({ url, id, title, windowId }) => {
   xButton.setAttribute('class', 'btn x');
   xButton.setAttribute('data-id', id);
 
-  const checkbox = document.createElement('span');
-  checkbox.setAttribute('class', 'checkbox');
+  const checkboxWrap = document.createElement('label');
+  checkboxWrap.setAttribute('class', 'checkbox-wrap');
+  checkboxWrap.setAttribute('for', `checkbox_${id}`);
+  const checkbox = document.createElement('input');
+  checkbox.setAttribute('type', 'checkbox');
   checkbox.setAttribute('id', `checkbox_${id}`);
   checkbox.setAttribute('data-id', id);
   checkbox.setAttribute('data-url', url);
+  checkboxWrap.appendChild(checkbox);
 
   const header = document.createElement('h2');
   header.innerText = title;
 
   overlay.appendChild(header);
-  overlay.appendChild(checkbox);
+  overlay.appendChild(checkboxWrap);
   overlay.appendChild(starButton);
   overlay.appendChild(fileButton);
   overlay.appendChild(xButton);
