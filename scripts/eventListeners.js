@@ -1,23 +1,21 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-const starBtnFullUri = 'url("../images/star-full.png")';
-const starBtnUri = 'url("../images/star.png")';
 const results = document.getElementById('results');
 let checkedIds = [];
 let checkedUrls = [];
 
 const setMenuVisibility = (on, idToKeep) => {
   const menu = document.getElementById('menu');
-  const checkboxes = document.getElementsByClassName('checkbox');
+  const checkboxes = document.querySelectorAll("input[type='checkbox']");
   if (on) {
-    menu.style.display = 'grid';
+    menu.classList.add('open');
     Array.prototype.forEach.call(checkboxes, (el) => {
-      el.style.display = 'block';
+      el.style.display = 'grid';
     });
   } else {
-    menu.style.display = 'none';
+    menu.classList.remove('open');
     Array.prototype.forEach.call(checkboxes, (el) => {
-      el.classList.remove('checked');
+      el.checked = false;
       if (el.id === 'menuCheckbox') {
         return;
       }
@@ -57,14 +55,12 @@ const onMenuXClicked = () => {
 
 const onCheckBoxClicked = (e) => {
   const { id, url } = e.target.dataset;
-  if (checkedIds.includes(id)) {
-    checkedIds.splice(checkedIds.indexOf(id), 1);
-    checkedUrls.splice(checkedUrls.indexOf(url), 1);
-    e.target.classList.remove('checked');
-  } else {
+  if (e.target.checked) {
     checkedIds.push(id);
     checkedUrls.push(url);
-    e.target.classList.add('checked');
+  } else {
+    checkedIds.splice(checkedIds.indexOf(id), 1);
+    checkedUrls.splice(checkedUrls.indexOf(url), 1);
   }
 
   if (checkedIds.length === 0) {
@@ -76,24 +72,20 @@ const onCheckBoxClicked = (e) => {
 };
 
 const onMenuCheckboxClicked = (e) => {
-  const isChecked = e.target.classList.contains('checked');
-  if (isChecked) {
-    e.target.classList.remove('checked');
-  } else {
-    e.target.classList.add('checked');
-  }
   checkedIds = [];
   checkedUrls = [];
+
+  if (!e.target.checked) {
+    setMenuVisibility(false);
+    return;
+  }
+
   // eslint-disable-next-line no-undef
-  const checkboxes = container.getElementsByClassName('checkbox');
+  const checkboxes = container.querySelectorAll("input[type='checkbox']");
   Array.prototype.forEach.call(checkboxes, (el) => {
-    if (isChecked) {
-      setMenuVisibility(false);
-    } else {
-      el.setAttribute('class', 'checkbox checked');
-      checkedIds.push(el.dataset.id);
-      checkedUrls.push(el.dataset.url);
-    }
+    el.checked = true;
+    checkedIds.push(el.dataset.id);
+    checkedUrls.push(el.dataset.url);
   });
 };
 
@@ -169,10 +161,10 @@ const onStarClicked = async ({ target }) => {
   const { url } = target.dataset;
   const bkmNode = await browser.bookmarks.search({ url });
   if (bkmNode && bkmNode.length > 0) {
-    target.style.backgroundImage = starBtnUri;
+    target.classList.remove('full');
     browser.bookmarks.remove(bkmNode[0].id);
   } else {
-    target.style.backgroundImage = starBtnFullUri;
+    target.classList.add('full');
     browser.bookmarks.create({
       url,
       title: url,
@@ -211,16 +203,16 @@ const onImageEnter = async (e) => {
     const starButton = document.getElementById(`star_${id}`);
     const bkmNode = await browser.bookmarks.search({ url });
     if (bkmNode && bkmNode.length > 0) {
-      starButton.style.backgroundImage = starBtnFullUri;
+      starButton.classList.add('full');
     } else {
-      starButton.style.backgroundImage = starBtnUri;
+      starButton.classList.remove('full');
     }
   }
   // if only one tab don't show checkbox
   // eslint-disable-next-line no-undef
   if (container.childElementCount > 1) {
     const checkbox = document.getElementById(`checkbox_${id}`);
-    checkbox.style.display = 'block';
+    checkbox.style.display = 'grid';
   }
 };
 
