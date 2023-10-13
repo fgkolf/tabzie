@@ -125,16 +125,21 @@ const urlRegEx =
   /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/;
 const isValidURLFormat = (url) => urlRegEx.test(url);
 
-const createTabItems = (tabs) => {
+const createTabItems = async ({ tabs, batchSize }) => {
   while (tabs.length) {
     const fragment = document.createDocumentFragment();
-    tabs.splice(0, 4).forEach(async (tab) => {
+    const currentTabs = tabs.splice(0, batchSize);
+    // eslint-disable-next-line no-await-in-loop
+    const currentTabImages = await Promise.all(
+      currentTabs.map((tab) => browser.tabs.captureTab(tab.id)),
+    );
+
+    currentTabImages.forEach((uri, index) => {
       const gridItem = document.createElement('div');
       fragment.appendChild(gridItem);
       gridItem.setAttribute('class', 'grid-item');
-      gridItem.setAttribute('id', tab.id);
-      const uri = await browser.tabs.captureTab(tab.id);
-      gridItem.appendChild(onCaptured(uri, tab));
+      gridItem.setAttribute('id', currentTabs[index].id);
+      gridItem.appendChild(onCaptured(uri, currentTabs[index]));
     });
     container.appendChild(fragment);
   }
@@ -145,7 +150,8 @@ const getTabs = async () => {
   const validTabs = tabs.filter((tab) => isValidURLFormat(tab.url));
   if (validTabs.length > 0) {
     handleLoading();
-    createTabItems(validTabs);
+    const batchSize = validTabs.length > 5 ? 4 : validTabs.length;
+    await createTabItems({ tabs: validTabs, batchSize });
     addGridContainerListeners();
   } else {
     loading.innerText = 'Start browsing and come back!';
