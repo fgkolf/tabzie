@@ -44,7 +44,7 @@ body {
     border-radius: 1%;
 }
 
-.grid-item h2 {
+.grid-item .title {
     display: none;
     position: absolute;
     top: 16px;
@@ -54,6 +54,7 @@ body {
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 60%;
+    font-size: x-large;
 }
 
 .overlay {

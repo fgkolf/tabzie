@@ -87,7 +87,8 @@ const createOverlay = ({ url, id, title, windowId }) => {
   checkbox.setAttribute('data-url', url);
   checkboxWrap.appendChild(checkbox);
 
-  const header = document.createElement('h2');
+  const header = document.createElement('p');
+  header.setAttribute('class', 'title');
   header.innerText = title;
 
   overlay.appendChild(header);
