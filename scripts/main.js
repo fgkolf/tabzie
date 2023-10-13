@@ -114,10 +114,10 @@ const onCaptured = (imageUri, tab) => {
   return fragment;
 };
 
-const handleLoading = () => {
+const stopLoading = () => {
   setTimeout(() => {
-    container.classList.remove('hidden');
     loading.remove();
+    container.classList.remove('hidden');
   }, 1500);
 };
 
@@ -149,7 +149,7 @@ const getTabs = async () => {
   const tabs = await browser.tabs.query({ pinned: false });
   const validTabs = tabs.filter((tab) => isValidURLFormat(tab.url));
   if (validTabs.length > 0) {
-    handleLoading();
+    stopLoading();
     const batchSize = validTabs.length > 5 ? 4 : validTabs.length;
     await createTabItems({ tabs: validTabs, batchSize });
     addGridContainerListeners();
@@ -160,9 +160,7 @@ const getTabs = async () => {
 
 const setPopupProperties = (windowInfo) => {
   if (windowInfo.width < 800) {
-    document
-      .getElementById('container')
-      .setAttribute('class', 'grid-list hidden');
+    container.setAttribute('class', 'grid-list hidden');
     document.getElementById('curtain').style.gridTemplateColumns = 'auto';
     document.getElementById('search').style.gridArea = '2 / 1';
     document.getElementById('search').style.left = '35px';
