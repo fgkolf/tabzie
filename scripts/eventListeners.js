@@ -191,7 +191,7 @@ const onImageClicked = (e) => {
 
 const onImageEnter = async (e) => {
   const { url, id } = e.target.dataset;
-  const title = e.target.querySelector('h2');
+  const title = e.target.querySelector('.title');
   title.style.display = 'block';
 
   if (checkedIds.length === 0) {
@@ -217,7 +217,7 @@ const onImageEnter = async (e) => {
 };
 
 const onImageLeave = (e) => {
-  const title = e.target.querySelector('h2');
+  const title = e.target.querySelector('.title');
   title.style.display = 'none';
 
   const elms = e.target.getElementsByClassName('btn');
