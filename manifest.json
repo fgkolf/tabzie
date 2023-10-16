@@ -8,9 +8,10 @@
     "48": "/images/logo.png",
     "96": "/images/logo96.png"
   },
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
-      "strict_min_version": "59.0"
+      "id": "fgkolf@tabzie",
+      "strict_min_version": "109.0"
     }
   },
   "permissions": [
